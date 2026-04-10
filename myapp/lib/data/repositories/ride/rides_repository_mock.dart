@@ -1,6 +1,8 @@
+import 'package:blabla/data/dummy_data.dart';
 import 'package:blabla/data/repositories/ride/rides_repository.dart';
 import 'package:blabla/model/ride/locations.dart';
 import 'package:blabla/model/ride/ride.dart';
+import 'package:blabla/model/ride_pref/ride_pref.dart';
 import 'package:blabla/model/user/user.dart';
 
 class RidesRepositoryMock extends RidesRepository {
@@ -26,5 +28,11 @@ class RidesRepositoryMock extends RidesRepository {
   List<Ride> fetchrides() {
     // TODO: implement fetchrides
     return rides;
+  }
+List<RidePreference> fakeRidePref= fakeRidePrefs;
+  @override
+  List<RidePreference> fetchRidePreference() {
+    // TODO: implement fetchRidePreference
+    return fakeRidePref;
   }
 }
