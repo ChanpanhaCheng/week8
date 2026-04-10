@@ -1,9 +1,11 @@
+import 'package:blabla/data/repositories/location/locations_repository.dart';
 import 'package:blabla/services/location_service.dart';
 import 'package:blabla/ui/widgets/display/bla_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../../model/ride/locations.dart';
-import '../../theme/theme.dart';
+import '../../../../model/ride/locations.dart';
+import '../../../theme/theme.dart';
 
 ///
 /// A  Location Picker is a view to pick a Location:
@@ -46,11 +48,11 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
     });
   }
 
-  List<Location> get filteredLocation {
+  List<Location>  filteredLocation(LocationsRepository locationsRepository) {
     if (currentSearchText.length < 2) {
       return [];
     }
-    return LocationsService.availableLocations
+    return locationsRepository.fetchLocations()
         .where(
           (location) => location.name.toUpperCase().contains(
             currentSearchText.toUpperCase(),
@@ -61,6 +63,7 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final locationsRepository = context.read<LocationsRepository>().fetchLocations();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(
@@ -80,9 +83,9 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
 
             Expanded(
               child: ListView.builder(
-                itemCount: filteredLocation.length,
+                itemCount: locationsRepository.length,
                 itemBuilder: (context, index) => LocationTile(
-                  location: filteredLocation[index],
+                  location: locationsRepository[index],
                   onTap: onTap,
                 ),
               ),
